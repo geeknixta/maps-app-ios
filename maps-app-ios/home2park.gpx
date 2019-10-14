@@ -1,0 +1,166 @@
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd" creator="MotionXGPSFull 24.4 Build 5112 R64">
+<trk>
+<name>Route From Home To Park</name>
+<desc>Oct 13, 2019  3:51 pm</desc>
+<trkseg>
+<trkpt lat="38.4109842" lon="-78.7262090">
+<ele>430.965</ele>
+<time>2019-10-13T19:51:59.559Z</time>
+</trkpt>
+<trkpt lat="38.4109842" lon="-78.7262090">
+<ele>431.349</ele>
+<time>2019-10-13T19:52:05.999Z</time>
+</trkpt>
+<trkpt lat="38.4099465" lon="-78.7268797">
+<ele>426.875</ele>
+<time>2019-10-13T19:52:16.971Z</time>
+</trkpt>
+<trkpt lat="38.4096393" lon="-78.7270961">
+<ele>426.678</ele>
+<time>2019-10-13T19:52:19.245Z</time>
+</trkpt>
+<trkpt lat="38.4094847" lon="-78.7273347">
+<ele>426.463</ele>
+<time>2019-10-13T19:52:20.999Z</time>
+</trkpt>
+<trkpt lat="38.4094847" lon="-78.7273347">
+<ele>426.096</ele>
+<time>2019-10-13T19:52:25.999Z</time>
+</trkpt>
+<trkpt lat="38.4094847" lon="-78.7273347">
+<ele>425.737</ele>
+<time>2019-10-13T19:52:30.757Z</time>
+</trkpt>
+<trkpt lat="38.4093369" lon="-78.7274430">
+<ele>425.618</ele>
+<time>2019-10-13T19:52:37.324Z</time>
+</trkpt>
+<trkpt lat="38.4090771" lon="-78.7272180">
+<ele>425.671</ele>
+<time>2019-10-13T19:52:40.790Z</time>
+</trkpt>
+<trkpt lat="38.4087029" lon="-78.7269236">
+<ele>425.310</ele>
+<time>2019-10-13T19:52:43.906Z</time>
+</trkpt>
+<trkpt lat="38.4082934" lon="-78.7265536">
+<ele>423.711</ele>
+<time>2019-10-13T19:52:46.895Z</time>
+</trkpt>
+<trkpt lat="38.4078661" lon="-78.7261664">
+<ele>420.647</ele>
+<time>2019-10-13T19:52:49.805Z</time>
+</trkpt>
+<trkpt lat="38.4074214" lon="-78.7257595">
+<ele>416.579</ele>
+<time>2019-10-13T19:52:52.752Z</time>
+</trkpt>
+<trkpt lat="38.4069791" lon="-78.7253476">
+<ele>412.210</ele>
+<time>2019-10-13T19:52:55.728Z</time>
+</trkpt>
+<trkpt lat="38.4065783" lon="-78.7249294">
+<ele>407.642</ele>
+<time>2019-10-13T19:52:58.805Z</time>
+</trkpt>
+<trkpt lat="38.4062867" lon="-78.7245620">
+<ele>402.542</ele>
+<time>2019-10-13T19:53:01.766Z</time>
+</trkpt>
+<trkpt lat="38.4061063" lon="-78.7242592">
+<ele>397.376</ele>
+<time>2019-10-13T19:53:04.396Z</time>
+</trkpt>
+<trkpt lat="38.4059559" lon="-78.7239391">
+<ele>393.249</ele>
+<time>2019-10-13T19:53:07.396Z</time>
+</trkpt>
+<trkpt lat="38.4058481" lon="-78.7236559">
+<ele>390.469</ele>
+<time>2019-10-13T19:53:10.463Z</time>
+</trkpt>
+<trkpt lat="38.4057405" lon="-78.7235185">
+<ele>388.382</ele>
+<time>2019-10-13T19:53:12.818Z</time>
+</trkpt>
+<trkpt lat="38.4055521" lon="-78.7235629">
+<ele>386.497</ele>
+<time>2019-10-13T19:53:16.302Z</time>
+</trkpt>
+<trkpt lat="38.4054216" lon="-78.7235635">
+<ele>384.811</ele>
+<time>2019-10-13T19:53:19.024Z</time>
+</trkpt>
+<trkpt lat="38.4053886" lon="-78.7234297">
+<ele>383.273</ele>
+<time>2019-10-13T19:53:21.670Z</time>
+</trkpt>
+<trkpt lat="38.4053765" lon="-78.7232177">
+<ele>382.030</ele>
+<time>2019-10-13T19:53:25.038Z</time>
+</trkpt>
+<trkpt lat="38.4053744" lon="-78.7229631">
+<ele>381.194</ele>
+<time>2019-10-13T19:53:28.200Z</time>
+</trkpt>
+<trkpt lat="38.4053712" lon="-78.7227077">
+<ele>380.389</ele>
+<time>2019-10-13T19:53:31.167Z</time>
+</trkpt>
+<trkpt lat="38.4053662" lon="-78.7224571">
+<ele>379.385</ele>
+<time>2019-10-13T19:53:34.117Z</time>
+</trkpt>
+<trkpt lat="38.4053758" lon="-78.7222230">
+<ele>378.254</ele>
+<time>2019-10-13T19:53:36.975Z</time>
+</trkpt>
+<trkpt lat="38.4053928" lon="-78.7219966">
+<ele>377.135</ele>
+<time>2019-10-13T19:53:39.857Z</time>
+</trkpt>
+<trkpt lat="38.4054147" lon="-78.7218564">
+<ele>376.172</ele>
+<time>2019-10-13T19:53:41.760Z</time>
+</trkpt>
+<trkpt lat="38.4054382" lon="-78.7217240">
+<ele>375.443</ele>
+<time>2019-10-13T19:53:43.680Z</time>
+</trkpt>
+<trkpt lat="38.4054526" lon="-78.7215992">
+<ele>374.967</ele>
+<time>2019-10-13T19:53:45.638Z</time>
+</trkpt>
+<trkpt lat="38.4054639" lon="-78.7214461">
+<ele>374.679</ele>
+<time>2019-10-13T19:53:48.332Z</time>
+</trkpt>
+<trkpt lat="38.4054254" lon="-78.7213284">
+<ele>374.413</ele>
+<time>2019-10-13T19:53:50.999Z</time>
+</trkpt>
+<trkpt lat="38.4054141" lon="-78.7212080">
+<ele>373.989</ele>
+<time>2019-10-13T19:53:54.999Z</time>
+</trkpt>
+</trkseg>
+</trk>
+<extensions>
+<fpdata xmlns="http://www.motionx.com/GPX-Extensions/1/1" sfv="10" origin="MotionXGPSFull 24.4 Build 5112 R64">
+<bin enc="base64">
+RgIAAAACAAAAvm3YF+Bo10EBAAAAHqmvNeBo10EAAABc4ABdQCMAAABLgwEA/HuTunDv
+ekDgS+sv0V93QAAAAAAYAAAAUm91dGUgRnJvbSBIb21lIFRvIFBhcmsAFgAAAE9jdCAx
+MywgMjAxOSAgMzo1MSBwbQAAAAAAP6mvNeBo10EG1A9J4GjXQdbCAQAbpxbD6rSKQCwA
+AAACAAAAXjYcNXquU8CQOX4hmzRDQPx7k7pw73pAU8Z8SUoIFkCYGuzLUxQnQAAAAAAA
+kJ9AAAAAAAAAAAAAAAAA4XoUrkchZkDQWMGte+B3QAEAAABNIroxwJm4vwAAAAABAAAA
+AAAAAAAAAABNIroxwJm4vwEAAAABAAAABgAAADdMBLHZEKRAAAAAAAAAAAABAAAADgAA
+AFRyYWNrXzAwMy5ncHgAAQAAAMZqsTXgaNdBCgAAAAEAAAAKAAAAVHJhY2sgMDAzAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAVPa/NOBo10EAAAAAAAAAAAAAAAAAAAAA/yVEvAIAAAAA
+AAAAAAAAAAEAAAAoAAAAMjQuNCBCdWlsZCA1MTEyIFI2NCwgTVhBRSA4LjEgYi4gNjI2
+UjY0AAAAAADKbwAAAQAAAAEEAAAAX4CjXdOAo10EtW7YF+Bo10G1btgX4GjXQQAAAAAA
+qBM/AAAAAAM0uKEZ4GjXQTS4oRngaNdBAAAAsKeUHEAAAAAABDLlyRvgaNdBMuXJG+Bo
+10EAAACEu4svQAAAAAABxm3YF+Bo10EiTtk04GjXQQAAAFzgAF1AAAAAAAAAAAA=
+</bin>
+</fpdata>
+</extensions>
+</gpx>

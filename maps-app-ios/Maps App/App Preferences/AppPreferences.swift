@@ -17,10 +17,11 @@ import ArcGIS
 fileprivate enum AppPreferenceKey: String {
     case viewpoint
     case portalURL
+    case mmpkFileName
 }
 
 class AppPreferences: AGSAppPreferences {
-    static var viewpoint:AGSViewpoint? {
+    static var viewpoint: AGSViewpoint? {
         get {
             return getAGS(type: AGSViewpoint.self, forKey: AppPreferenceKey.viewpoint)
         }
@@ -29,12 +30,21 @@ class AppPreferences: AGSAppPreferences {
         }
     }
     
-    static var portalURL:URL? {
+    static var portalURL: URL? {
         get {
             return getURL(forKey: AppPreferenceKey.portalURL)
         }
         set {
             set(value: newValue, forKey: AppPreferenceKey.portalURL)
+        }
+    }
+    
+    static var mmpkFileName: String? {
+        get {
+            return getString(forKey: AppPreferenceKey.mmpkFileName)
+        }
+        set {
+            set(value: newValue, forKey: AppPreferenceKey.mmpkFileName)
         }
     }
 }

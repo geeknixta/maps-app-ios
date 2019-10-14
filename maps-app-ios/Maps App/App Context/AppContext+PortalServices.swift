@@ -33,7 +33,7 @@ extension AppContext {
                     print("Locator set to: \(geocoderURL)")
                 }
                 
-                if let routeTaskURL = svcs.routeServiceURL, routeTaskURL != arcGISServices.routeTask.url {
+                if arcGISServices.routeTask.transportationNetworkDataset == nil, let routeTaskURL = svcs.routeServiceURL, routeTaskURL != arcGISServices.routeTask.url {
                     arcGISServices.routeTask = AGSRouteTask(url: routeTaskURL)
                     print("Route Task set to: \(routeTaskURL)")
                 }

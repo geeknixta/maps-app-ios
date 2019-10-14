@@ -45,6 +45,9 @@ class DirectionsDisplayViewController: UIViewController, UICollectionViewDataSou
     
     var currentCellIndex:IndexPath? {
         didSet {
+            if let index = currentCellIndex {
+                maneuversView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
+            }
             pageControl.currentPage = currentCellIndex?.row ?? 0
         }
     }
@@ -59,6 +62,7 @@ class DirectionsDisplayViewController: UIViewController, UICollectionViewDataSou
         MapsAppNotifications.observeNextManeuverNotification(owner: self) { [weak self](indexPath, distanceRemaining) in
             guard self?.maneuversView.numberOfItems(inSection: indexPath.section) ?? indexPath.row > indexPath.row else { return }
             self?.maneuversView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            self?.currentCellIndex = indexPath
             let directionCell = self?.maneuversView.cellForItem(at: indexPath) as? DirectionManeuverCell
             directionCell?.detailsLabel.text = distanceRemaining
         }

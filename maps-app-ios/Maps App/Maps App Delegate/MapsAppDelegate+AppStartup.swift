@@ -20,7 +20,7 @@ extension MapsAppDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // License the runtime
         do {
-            try AGSArcGISRuntimeEnvironment.setLicenseKey(AppSettings.licenseKey)
+            try AGSArcGISRuntimeEnvironment.setLicenseKey(AppSettings.licenseKey, extensions: smpLicenses)
         } catch {
             print("Error licensing app: \(error.localizedDescription)")
         }
@@ -32,3 +32,11 @@ extension MapsAppDelegate {
     }
 
 }
+
+private let smpLicenses = [
+    "runtimesmpna,1000,rud823492765,21-oct-2020,5H7L04SZ8L93EHT8A083",
+    "runtimesmpe,1000,rud846385964,21-oct-2020,YYRDFK9HRGP1J4JEY150",
+    "runtimesmpmea,1000,rud236549873,21-oct-2020,PM0PRK8ELBCH4R8FK214",
+    "runtimesmpap,1000,rud175987450,21-oct-2020,HC4Z8AZ7G3D3EHT8A051",
+    "runtimesmpla,1000,rud578909385,21-oct-2020,B5F1ERFLTJ0BYKZAD035"
+]

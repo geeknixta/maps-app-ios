@@ -18,9 +18,13 @@ extension ArcGISServices {
     
     // MARK: Directions from A to B
     func route(from:AGSStop, to:AGSStop) {
-        mapsApp.requestConfirmationIfSignedOut(explanation: "Getting directions requires a login and consumes credits.", continueHandler: {
-            self.requestRoute(from: from, to: to)
-        })
+        if routeTask.transportationNetworkDataset != nil {
+            requestRoute(from: from, to: to)
+        } else {
+            mapsApp.requestConfirmationIfSignedOut(explanation: "Getting directions requires a login and consumes credits.", continueHandler: {
+                self.requestRoute(from: from, to: to)
+            })
+        }
     }
     
     // MARK: Convenience methods
@@ -57,10 +61,12 @@ extension ArcGISServices {
             params.returnDirections = true
             params.returnRoutes = true
             params.setStops([from,to])
-            
+
             if let outSR = mapsAppContext.currentMapView?.spatialReference {
                 params.outputSpatialReference = outSR
             }
+            
+            reroutingParameters = params
 
             self.routeTask.solveRoute(with: params) { result, error in
                 guard error == nil else {
