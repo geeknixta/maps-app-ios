@@ -194,17 +194,27 @@ class RouteResultViewController : UIViewController, AGSRouteTrackerDelegate {
         
         if trackingStatus.destinationStatus == .reached {
             print("ROUTE COMPLETE!")
+            speakText(text: "Navigation complete")
             cancelTracker()
         }
+    }
+    
+    func speakText(text: String) {
+        let utterance = AVSpeechUtterance(string: text)
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback)
+        } catch {
+            print("Unable to set audio session: \(error.localizedDescription)")
+        }
+        synth.speak(utterance)
     }
     
     //Speak voice guidance provided by route tracker
     func routeTracker(_ routeTracker: AGSRouteTracker, didGenerateNewVoiceGuidance voiceGuidance: AGSVoiceGuidance) {
         print("Goto new voice guidance: \"\(voiceGuidance.text)\"")
         
-        let utterance = AVSpeechUtterance(string: voiceGuidance.text)
-        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-        synth.speak(utterance)
+        speakText(text: voiceGuidance.text)
         
         //Manage display of approaching manuever
         if(voiceGuidance.type == .approachingManeuver){

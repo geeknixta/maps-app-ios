@@ -55,7 +55,18 @@ extension MapViewController {
                     let mmpkRouteTask = AGSRouteTask(dataset: network)
                     arcGISServices.routeTask = mmpkRouteTask
                     print("USING LOCAL ROUTE TASK FROM MMPK")
+                } else {
+                    arcGISServices.routeTask = defaultRouteTask
+                    print("USING DEFAULT ROUTE TASK")
                 }
+                
+//                if let locatorTask = mmpk.locatorTask {
+//                    arcGISServices.locator = locatorTask
+//                    print("USING LOCAL LOCATOR TASK FROM MMPK")
+//                } else {
+//                    arcGISServices.locator = defaultLocator
+//                    print("USING DEFAULT LOCATOR TASK")
+//                }
             })
         }
         

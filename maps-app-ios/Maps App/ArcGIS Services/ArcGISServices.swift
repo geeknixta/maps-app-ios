@@ -14,8 +14,11 @@
 
 import ArcGIS
 
+let defaultLocator = AGSLocatorTask(url: AppSettings.worldGeocoderURL)
+let defaultRouteTask = AGSRouteTask(url: AppSettings.worldRoutingServiceURL)
+
 class ArcGISServices {
     // MARK: ArcGIS Services
-    var locator = AGSLocatorTask(url: AppSettings.worldGeocoderURL)
-    var routeTask = AGSRouteTask(url: AppSettings.worldRoutingServiceURL)
+    var locator = defaultLocator
+    var routeTask = defaultRouteTask
 }
