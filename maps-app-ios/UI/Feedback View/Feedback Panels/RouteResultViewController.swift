@@ -112,6 +112,7 @@ class RouteResultViewController : UIViewController, AGSRouteTrackerDelegate {
         }
         
         if currentTracker != nil {
+            speakText(text: "Navigation Off")
             cancelTracker()
             return
         }

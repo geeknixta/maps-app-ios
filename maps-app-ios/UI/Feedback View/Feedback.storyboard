@@ -71,6 +71,7 @@
                         <subviews>
                             <searchBar contentMode="redraw" verticalCompressionResistancePriority="1000" searchBarStyle="minimal" placeholder="Address or Place" translatesAutoresizingMaskIntoConstraints="NO" id="O7t-Dj-Ug0">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                                <color key="barTintColor" name="Feedback Panel Background"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="search" enablesReturnKeyAutomatically="YES" textContentType="location"/>
                                 <connections>
                                     <outlet property="delegate" destination="Wma-xI-VYV" id="ZlC-BY-yvZ"/>
@@ -109,25 +110,25 @@
                                 <rect key="frame" x="8" y="4" width="359" height="72"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="800" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="OVz-Lr-93O">
-                                        <rect key="frame" x="0.0" y="0.0" width="319" height="72"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="287" height="72"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="mWP-PU-2o4" userLabel="From Stack">
-                                                <rect key="frame" x="0.0" y="0.0" width="319" height="20"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="287" height="20"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="From:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R17-ha-Wxz">
                                                         <rect key="frame" x="0.0" y="0.0" width="44" height="20"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" name="Feedback Panel Text"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2aD-ce-Bpq">
-                                                        <rect key="frame" x="52" y="0.0" width="239" height="20"/>
+                                                        <rect key="frame" x="52" y="0.0" width="207" height="20"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" name="Feedback Panel Text"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Route Start" translatesAutoresizingMaskIntoConstraints="NO" id="Fjg-Vp-IXf">
-                                                        <rect key="frame" x="299" y="0.0" width="20" height="20"/>
+                                                        <rect key="frame" x="267" y="0.0" width="20" height="20"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" secondItem="Fjg-Vp-IXf" secondAttribute="height" multiplier="1:1" id="3n5-O8-EOv"/>
                                                             <constraint firstAttribute="height" constant="20" id="tJf-EW-R9G"/>
@@ -139,22 +140,22 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="98Z-Gd-voJ" userLabel="To Stack">
-                                                <rect key="frame" x="0.0" y="24" width="319" height="20"/>
+                                                <rect key="frame" x="0.0" y="24" width="287" height="20"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7gH-zT-q5G" userLabel="To:">
                                                         <rect key="frame" x="0.0" y="0.0" width="44" height="20"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" name="Feedback Panel Text"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="9" adjustsLetterSpacingToFitWidth="YES" preferredMaxLayoutWidth="185" translatesAutoresizingMaskIntoConstraints="NO" id="m9f-aR-4NK">
-                                                        <rect key="frame" x="52" y="0.0" width="239" height="20"/>
+                                                        <rect key="frame" x="52" y="0.0" width="207" height="20"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" name="Feedback Panel Text"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Route End" translatesAutoresizingMaskIntoConstraints="NO" id="Edq-kO-ZEx">
-                                                        <rect key="frame" x="299" y="0.0" width="20" height="20"/>
+                                                        <rect key="frame" x="267" y="0.0" width="20" height="20"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="20" id="4hN-hv-biu"/>
                                                             <constraint firstAttribute="width" secondItem="Edq-kO-ZEx" secondAttribute="height" multiplier="1:1" id="syi-gK-eXa"/>
@@ -167,13 +168,13 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="5Mb-pW-rE6" userLabel="Summary Stack">
-                                                <rect key="frame" x="0.0" y="48" width="319" height="24"/>
+                                                <rect key="frame" x="0.0" y="48" width="287" height="24"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" horizontalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8Hk-tN-jaw">
                                                         <rect key="frame" x="0.0" y="0.0" width="44" height="24"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fC7-TR-LkP">
-                                                                <rect key="frame" x="20" y="0.0" width="24" height="24"/>
+                                                                <rect key="frame" x="20" y="-12" width="24" height="48"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="24" id="ZKB-jh-hIB"/>
                                                                 </constraints>
@@ -189,9 +190,9 @@
                                                         </constraints>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="SgX-GL-sei">
-                                                        <rect key="frame" x="52" y="0.0" width="267" height="24"/>
+                                                        <rect key="frame" x="52" y="0.0" width="235" height="24"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" name="Feedback Panel Text"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
@@ -214,7 +215,8 @@
                                         </constraints>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aFe-Ln-wqg" userLabel="Close Button">
-                                        <rect key="frame" x="327" y="0.0" width="32" height="72"/>
+                                        <rect key="frame" x="295" y="0.0" width="64" height="72"/>
+                                        <color key="tintColor" name="Feedback Panel Text"/>
                                         <state key="normal" image="Cancel"/>
                                         <connections>
                                             <segue destination="hwd-Cr-ngo" kind="unwind" unwindAction="returnToSearch:" id="JiB-Zi-WQ4"/>
@@ -276,7 +278,7 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Result Address. Could be multiple lines, depending on the length of the text." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MzP-tc-U6H">
                                                 <rect key="frame" x="40" y="0.0" width="227" height="44"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
-                                                <nil key="textColor"/>
+                                                <color key="textColor" name="Feedback Panel Text"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
@@ -290,6 +292,7 @@
                                         <constraints>
                                             <constraint firstAttribute="width" constant="30" id="9UV-bO-vrX"/>
                                         </constraints>
+                                        <color key="tintColor" name="Feedback Panel Text"/>
                                         <state key="normal" image="Open Directions"/>
                                         <connections>
                                             <action selector="requestRoute:" destination="DyS-dS-awY" eventType="touchUpInside" id="1iV-3Z-zqX"/>
@@ -297,6 +300,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qEG-KM-WSV">
                                         <rect key="frame" x="313" y="0.0" width="30" height="44"/>
+                                        <color key="tintColor" name="Feedback Panel Text"/>
                                         <state key="normal" image="Cancel"/>
                                         <connections>
                                             <segue destination="Rxs-Vd-saQ" kind="unwind" unwindAction="returnToSearch:" id="Bce-cH-NBR"/>
@@ -342,6 +346,9 @@
         <image name="Sedan" width="24" height="24"/>
         <namedColor name="Feedback Panel Background">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Feedback Panel Text">
+            <color red="0.18500000238418579" green="0.18500000238418579" blue="0.18500000238418579" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
     </resources>
 </document>
