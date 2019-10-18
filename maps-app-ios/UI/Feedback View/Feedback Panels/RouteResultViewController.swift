@@ -23,7 +23,26 @@ class RouteResultViewController : UIViewController, AGSRouteTrackerDelegate {
     @IBOutlet weak var summaryLabel: UILabel!
     var previewNextManuever = false
     var displayManueverIndex = 0
-    var traversedRouteOverlay = AGSGraphicsOverlay()
+    var traversedRouteOverlay: AGSGraphicsOverlay = {
+        let overlay = AGSGraphicsOverlay()
+        overlay.renderer = AGSSimpleRenderer(symbol: AGSSimpleLineSymbol(style: .solid, color: .gray, width: 5))
+        return overlay
+    }()
+    var remainingRouteOverlay: AGSGraphicsOverlay = {
+        let overlay = AGSGraphicsOverlay()
+        let remainingSymbol: AGSSymbol = {
+            if let symbol = Bundle.main.agsSymbolFromJSON(resourceNamed: "DirectionsManeuverSymbol") {
+                return symbol
+            }
+            
+            print("Returning fallback maneuver symbol")
+            let lineSymbol = AGSSimpleLineSymbol(style: .solid, color: UIColor.orange.withAlphaComponent(0.9), width: 8)
+            let backingSymbol = AGSSimpleLineSymbol(style: .solid, color: UIColor.white.withAlphaComponent(0.6), width: 13)
+            return AGSCompositeSymbol(symbols: [backingSymbol, lineSymbol])
+        }()
+        overlay.renderer = AGSSimpleRenderer(symbol: remainingSymbol)
+        return overlay
+    }()
     
     var prevManueverIndex = 0
     var route:AGSRoute? {
@@ -54,11 +73,21 @@ class RouteResultViewController : UIViewController, AGSRouteTrackerDelegate {
             self?.route = route
         }
         
-        traversedRouteOverlay.renderer = AGSSimpleRenderer(symbol: AGSSimpleLineSymbol(style: .solid, color: .gray, width: 5))
+        MapsAppNotifications.observeModeChangeNotification(owner: self) { [weak self] (oldMode, newMode) in
+            switch (oldMode) {
+            case .routeResult(_):
+                // Cancel the route interface
+                self?.stopTracking()
+            default:
+                print("No need to cancel the tracking")
+            }
+        }
+
+        currentTracker = nil
     }
     
     deinit {
-        cancelTracker()
+        stopTracking()
         
         MapsAppNotifications.deregisterNotificationBlocks(forOwner: self)
     }
@@ -84,49 +113,63 @@ class RouteResultViewController : UIViewController, AGSRouteTrackerDelegate {
         return formatter
     }()
     
-    func cancelTracker() {
+    func stopTracking() {
+        remainingRouteOverlay.graphics.removeAllObjects()
         traversedRouteOverlay.graphics.removeAllObjects()
+        
+        remainingRouteOverlay.isVisible = false
+        traversedRouteOverlay.isVisible = false
+
         currentTracker?.delegate = nil
         currentTracker = nil
+
         if let mapView = mapsAppContext.currentMapView {
-            mapView.locationDisplay.stop()
-            mapView.locationDisplay.dataSource = AGSCLLocationDataSource()
+//            mapView.locationDisplay.stop()
+//            mapView.locationDisplay.dataSource = AGSCLLocationDataSource()
             mapView.locationDisplay.locationChangedHandler = nil
-            mapView.locationDisplay.start { (error) in
-                if let error = error {
-                    print("Error starting the location display: \(error)")
-                }
-            }
+//            mapView.locationDisplay.start { (error) in
+//                if let error = error {
+//                    print("Error starting the location display: \(error)")
+//                }
+//            }
         }
-        print("Tracking Canceled")
+        
+        MapsAppNotifications.postNavigationEnded()
+        
+        print("Tracking Ended")
     }
     
-    var currentTracker: AGSRouteTracker?
+    @IBOutlet weak var navigateButton: RoundedButton!
+    @IBOutlet weak var endNavigatingButton: RoundedButton!
+    var currentTracker: AGSRouteTracker? {
+        didSet {
+            navigateButton.isHidden = currentTracker != nil
+            endNavigatingButton.isHidden = !navigateButton.isHidden
+        }
+    }
     let synth = AVSpeechSynthesizer()
     
+    @IBAction func endNavigation(_ sender: Any) {
+        stopTracking()
+    }
+
     @IBAction func navigate(_ sender: Any) {
-        
         guard let mapView = mapsAppContext.currentMapView,
             let routeResult = mapsAppContext.routeResult else {
                 return
         }
         
-        if currentTracker != nil {
-            speakText(text: "Navigation Off")
-            cancelTracker()
-            return
-        }
-        
         //Setup route tracker
-        if let routeTracker = AGSRouteTracker(routeResult: routeResult, routeIndex: 0) {
+        currentTracker = AGSRouteTracker(routeResult: routeResult, routeIndex: 0)
+        if let currentTracker = currentTracker {
             
-            currentTracker = routeTracker
+            prevManueverIndex = 0
             
-            routeTracker.voiceGuidanceUnitSystem = .imperial
-            routeTracker.delegate = self
+            currentTracker.voiceGuidanceUnitSystem = .imperial
+            currentTracker.delegate = self
             
             if let defaultParams = reroutingParameters {
-                routeTracker.enableRerouting(with: arcGISServices.routeTask, routeParameters: defaultParams,
+                currentTracker.enableRerouting(with: arcGISServices.routeTask, routeParameters: defaultParams,
                                              strategy: AGSReroutingStrategy.toNextStop,
                                              visitFirstStopOnStart: false) { error in
                                                 if let error = error {
@@ -150,28 +193,44 @@ class RouteResultViewController : UIViewController, AGSRouteTrackerDelegate {
                 }
                 mapView.locationDisplay.start(completion: nil)
             }
-            
+
+            if let guidance = currentTracker.generateVoiceGuidance() {
+                speakText(text: guidance.text)
+            }
+
             //For location updates....
-            mapView.locationDisplay.locationChangedHandler = {
+            mapView.locationDisplay.locationChangedHandler = { [weak self]
                 newLocation in
                 
-                if mapView.locationDisplay.autoPanMode != AGSLocationDisplayAutoPanMode.navigation {
-                    if let position = newLocation.position {
-                        mapView.setViewpoint(AGSViewpoint(center: position, scale: 5000))
+                DispatchQueue.main.async {
+                    guard let mapView = mapsAppContext.currentMapView else { return }
+
+                    if mapView.locationDisplay.autoPanMode != AGSLocationDisplayAutoPanMode.navigation {
+                        if let position = newLocation.position {
+                            mapView.setViewpoint(AGSViewpoint(center: position, scale: 5000))
+                        }
+                        mapView.locationDisplay.autoPanMode = AGSLocationDisplayAutoPanMode.navigation
                     }
-                    mapView.locationDisplay.autoPanMode = AGSLocationDisplayAutoPanMode.navigation
+                    
+                    //update route tracker
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                        self?.currentTracker?.trackLocation(newLocation, completion: nil)
+                    }
                 }
-                
-                //update route tracker
-                routeTracker.trackLocation(newLocation, completion: nil)
             }
             
-            traversedRouteOverlay = AGSGraphicsOverlay()
-            traversedRouteOverlay.renderer = AGSSimpleRenderer(symbol: AGSSimpleLineSymbol(style: .solid, color: .gray, width: 5))
-            mapView.graphicsOverlays.add(traversedRouteOverlay)
+            if !mapView.graphicsOverlays.contains(traversedRouteOverlay) {
+                mapView.graphicsOverlays.add(traversedRouteOverlay)
+            }
+            if !mapView.graphicsOverlays.contains(remainingRouteOverlay) {
+                mapView.graphicsOverlays.add(remainingRouteOverlay)
+            }
+            
+            remainingRouteOverlay.isVisible = true
+            traversedRouteOverlay.isVisible = true
+            
+            MapsAppNotifications.postNavigationStarted()
         }
-        
-        
     }
     
     //AGSRouteTrackerDelegate
@@ -191,12 +250,12 @@ class RouteResultViewController : UIViewController, AGSRouteTrackerDelegate {
         self.summaryLabel.text = text(forDistance:remainingDestDistance,time: remainingDestTime)
         
         //gray out the travelled route
-        updateTraveledRoute(trackingStatus.routeProgress.traversedGeometry)
+        updateTrackingGeometries(trackingStatus)
         
         if trackingStatus.destinationStatus == .reached {
             print("ROUTE COMPLETE!")
             speakText(text: "Navigation complete")
-            cancelTracker()
+            stopTracking()
         }
     }
     
@@ -218,7 +277,7 @@ class RouteResultViewController : UIViewController, AGSRouteTrackerDelegate {
         speakText(text: voiceGuidance.text)
         
         //Manage display of approaching manuever
-        if(voiceGuidance.type == .approachingManeuver){
+        if(voiceGuidance.type == .approachingManeuver) {
             previewNextManuever = true
         }
         
@@ -229,7 +288,6 @@ class RouteResultViewController : UIViewController, AGSRouteTrackerDelegate {
         }
     }
     
-    
     //handle re-routing
     func routeTrackerRerouteDidStart(_ routeTracker: AGSRouteTracker) {
         print("Rerouting…")
@@ -239,17 +297,8 @@ class RouteResultViewController : UIViewController, AGSRouteTrackerDelegate {
         print("Rerouted OK…")
         
         if let newRoute = trackingStatus?.routeResult.routes.first {
-            MapsAppNotifications.postRouteSolvedNotification(result: newRoute)
-        }
-        
-        MapsAppNotifications.observeModeChangeNotification(owner: self) { (oldMode, newMode) in
-            switch (oldMode) {
-            case .routeResult(_):
-                // Cancel the route interface
-                routeTracker.delegate = nil
-            default:
-                print("No need to cancel the tracking")
-            }
+            self.route = newRoute
+            (self.remainingRouteOverlay.graphics.firstObject as? AGSGraphic)?.geometry = trackingStatus?.routeProgress.remainingGeometry
         }
     }
     
@@ -271,14 +320,50 @@ class RouteResultViewController : UIViewController, AGSRouteTrackerDelegate {
         return displayManueverIndex
     }
     
-    fileprivate func updateTraveledRoute(_ geometry: AGSGeometry) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+    fileprivate func updateTrackingGeometries(_ status: AGSTrackingStatus) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
+            guard let self = self else { return }
+            
+            self.remainingRouteOverlay.graphics.removeAllObjects()
+            self.remainingRouteOverlay.graphics.add(AGSGraphic(geometry: status.routeProgress.remainingGeometry, symbol: nil, attributes: nil))
+            
             self.traversedRouteOverlay.graphics.removeAllObjects()
-            self.traversedRouteOverlay.graphics.add(AGSGraphic(geometry: geometry, symbol: nil, attributes: nil))        }
-        
+            self.traversedRouteOverlay.graphics.add(AGSGraphic(geometry: status.routeProgress.traversedGeometry, symbol: nil, attributes: nil))
+        }
     }
-    
-    
+
 }
 
+// MARK: External Notification API
+extension MapsAppNotifications {
+    static func observeNavigationStarted(owner:Any, handler:@escaping ()->Void) {
+        let ref = NotificationCenter.default.addObserver(forName: MapsAppNotifications.Names.navigationStarted, object: mapsApp, queue: OperationQueue.main) { notification in
+            handler()
+        }
+        MapsAppNotifications.registerBlockHandler(blockHandler: ref, forOwner: owner)
+    }
 
+    static func observeNavigationEnded(owner:Any, handler:@escaping ()->Void) {
+        let ref = NotificationCenter.default.addObserver(forName: MapsAppNotifications.Names.navigationEnded, object: mapsApp, queue: OperationQueue.main) { notification in
+            handler()
+        }
+        MapsAppNotifications.registerBlockHandler(blockHandler: ref, forOwner: owner)
+    }
+}
+
+// MARK: Internals
+extension MapsAppNotifications {
+    static func postNavigationStarted() {
+        NotificationCenter.default.post(name: MapsAppNotifications.Names.navigationStarted, object: mapsApp, userInfo: nil)
+    }
+
+    static func postNavigationEnded() {
+        NotificationCenter.default.post(name: MapsAppNotifications.Names.navigationEnded, object: mapsApp, userInfo: nil)
+    }
+}
+
+// MARK: Typed Notification Pattern
+extension MapsAppNotifications.Names {
+    static let navigationStarted = NSNotification.Name("MapsAppNavigationStarted")
+    static let navigationEnded = NSNotification.Name("MapsAppNavigationEnded")
+}

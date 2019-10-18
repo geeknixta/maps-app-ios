@@ -25,15 +25,18 @@ extension MapViewController {
         mapView.graphicsOverlays.add(routeManeuversOverlay)
         
         MapsAppNotifications.observeManeuverFocusNotifications(owner: self) { [weak self] maneuver in
+            guard let self = self else { return }
             if let targetExtent = maneuver.geometry?.extent {
-                let builder = targetExtent.toBuilder()
-                builder.expand(byFactor: 1.2)
-                if maneuver.length < 200 {
-                    builder.expand(byFactor: 8)
+                if self.routeManeuversOverlay.isVisible {
+                    let builder = targetExtent.toBuilder()
+                    builder.expand(byFactor: 1.2)
+                    if maneuver.length < 200 {
+                        builder.expand(byFactor: 8)
+                    }
+                    self.mapView.setViewpoint(AGSViewpoint(targetExtent: builder.toGeometry()), completion: nil)
                 }
-                self?.mapView.setViewpoint(AGSViewpoint(targetExtent: builder.toGeometry()), completion: nil)
                 
-                self?.routeManeuversOverlay.graphics.removeAllObjects()
+                self.routeManeuversOverlay.graphics.removeAllObjects()
                 var maneuverSymbol:AGSSymbol?
                 switch maneuver.maneuverType {
                 case .depart, .stop:
@@ -41,11 +44,25 @@ extension MapViewController {
                     stopSymbol.outline = AGSSimpleLineSymbol(style: .solid, color: UIColor.white, width: 2)
                     maneuverSymbol = stopSymbol
                 default:
-                    maneuverSymbol = self?.routeManeuverLineSymbol
+                    maneuverSymbol = self.routeManeuverLineSymbol
                 }
                 let maneuverGraphic = AGSGraphic(geometry: maneuver.geometry, symbol: maneuverSymbol, attributes: nil)
-                self?.routeManeuversOverlay.graphics.add(maneuverGraphic)
+                self.routeManeuversOverlay.graphics.add(maneuverGraphic)
             }
+        }
+        
+        MapsAppNotifications.observeNavigationStarted(owner: self) { [weak self] in
+            self?.routeManeuversOverlay.isVisible = false
+            self?.controlsView.isHidden = true
+            self?.prevModeButton.isHidden = true
+            self?.nextModeButton.isHidden = true
+        }
+        
+        MapsAppNotifications.observeNavigationEnded(owner: self) { [weak self] in
+            self?.routeManeuversOverlay.isVisible = true
+            self?.controlsView.isHidden = false
+            self?.prevModeButton.isHidden = false
+            self?.nextModeButton.isHidden = false
         }
     }
 }
