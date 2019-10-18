@@ -39,7 +39,7 @@ class DirectionsDisplayViewController: UIViewController, UICollectionViewDataSou
                 self.view.superview?.isHidden = (self.directions == nil)
             })
             
-            setCurrentCell()
+            setCurrentCell()            
         }
     }
     
@@ -75,6 +75,11 @@ class DirectionsDisplayViewController: UIViewController, UICollectionViewDataSou
             default:
                 self?.directions = nil
             }
+        }
+        
+        MapsAppNotifications.observeReRouteSolvedNotification(owner: self) { [weak self] newRouteSolution in
+            self?.currentCellIndex = nil
+            self?.directions = newRouteSolution
         }
         
         // Workaround to ensure the UICollectionView doesn't extend beyond the RoundedView container.

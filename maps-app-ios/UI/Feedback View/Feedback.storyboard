@@ -250,23 +250,34 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
-                                                    <action selector="navigate:" destination="hiO-wY-blQ" eventType="touchUpInside" id="zDl-qL-fKr"/>
+                                                    <action selector="startNavigation:" destination="hiO-wY-blQ" eventType="touchUpInside" id="zDl-qL-fKr"/>
                                                 </connections>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JsC-xJ-UW0" customClass="RoundedButton" customModule="maps_app_ios" customModuleProvider="target">
                                                 <rect key="frame" x="179.5" y="0.0" width="179.5" height="60"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="End Route" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PYB-6j-cZF">
-                                                        <rect key="frame" x="-4.5" y="6" width="189" height="48"/>
-                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="2Ae-8O-b0J">
+                                                        <rect key="frame" x="31" y="6" width="118" height="48"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="End" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PYB-6j-cZF">
+                                                                <rect key="frame" x="0.0" y="0.0" width="71" height="48"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
+                                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="nBd-kM-bfn">
+                                                                <rect key="frame" x="81" y="0.0" width="37" height="48"/>
+                                                            </activityIndicatorView>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" secondItem="PYB-6j-cZF" secondAttribute="height" id="dRO-dP-JJE"/>
+                                                        </constraints>
+                                                    </stackView>
                                                 </subviews>
                                                 <color key="backgroundColor" name="End Button Background"/>
                                                 <constraints>
-                                                    <constraint firstItem="PYB-6j-cZF" firstAttribute="centerY" secondItem="JsC-xJ-UW0" secondAttribute="centerY" id="8UU-vC-tRi"/>
-                                                    <constraint firstItem="PYB-6j-cZF" firstAttribute="centerX" secondItem="JsC-xJ-UW0" secondAttribute="centerX" id="iC7-H1-POE"/>
+                                                    <constraint firstItem="2Ae-8O-b0J" firstAttribute="centerX" secondItem="JsC-xJ-UW0" secondAttribute="centerX" id="ItO-M2-no9"/>
+                                                    <constraint firstItem="2Ae-8O-b0J" firstAttribute="centerY" secondItem="JsC-xJ-UW0" secondAttribute="centerY" id="oAU-Js-hfz"/>
                                                     <constraint firstAttribute="height" constant="60" id="yKx-dS-gFI"/>
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
@@ -280,6 +291,9 @@
                                                 </connections>
                                             </view>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstItem="PYB-6j-cZF" firstAttribute="height" secondItem="iDV-nM-f4O" secondAttribute="height" id="yaQ-km-Hlc"/>
+                                        </constraints>
                                     </stackView>
                                 </subviews>
                             </stackView>
@@ -297,6 +311,7 @@
                         <outlet property="endNavigatingButton" destination="JsC-xJ-UW0" id="WGL-C5-H4d"/>
                         <outlet property="fromLabel" destination="2aD-ce-Bpq" id="5Jr-lZ-qcZ"/>
                         <outlet property="navigateButton" destination="ae9-DE-sHB" id="4qf-TX-rhz"/>
+                        <outlet property="reroutingActivityView" destination="nBd-kM-bfn" id="AXl-iJ-Ks2"/>
                         <outlet property="summaryLabel" destination="SgX-GL-sei" id="eBG-Ym-lum"/>
                         <outlet property="toLabel" destination="m9f-aR-4NK" id="5Sc-GV-96H"/>
                     </connections>

@@ -21,8 +21,9 @@ class RouteResultViewController : UIViewController, AGSRouteTrackerDelegate {
     @IBOutlet weak var fromLabel: UILabel!
     @IBOutlet weak var toLabel: UILabel!
     @IBOutlet weak var summaryLabel: UILabel!
-    var previewNextManuever = false
     var displayManueverIndex = 0
+    
+    var previewNextManuever = false
     var traversedRouteOverlay: AGSGraphicsOverlay = {
         let overlay = AGSGraphicsOverlay()
         overlay.renderer = AGSSimpleRenderer(symbol: AGSSimpleLineSymbol(style: .solid, color: .gray, width: 5))
@@ -45,6 +46,7 @@ class RouteResultViewController : UIViewController, AGSRouteTrackerDelegate {
     }()
     
     var prevManueverIndex = 0
+    
     var route:AGSRoute? {
         didSet {
             // Here we want to set the route results.
@@ -72,24 +74,38 @@ class RouteResultViewController : UIViewController, AGSRouteTrackerDelegate {
         MapsAppNotifications.observeRouteSolvedNotification(owner: self) { [weak self] route in
             self?.route = route
         }
-        
+
+        MapsAppNotifications.observeReRouteSolvedNotification(owner: self) { [weak self] route in
+            self?.route = route
+        }
+
         MapsAppNotifications.observeModeChangeNotification(owner: self) { [weak self] (oldMode, newMode) in
-            switch (oldMode) {
+            switch oldMode {
             case .routeResult(_):
                 // Cancel the route interface
-                self?.stopTracking()
+                self?.stopNavigating()
             default:
                 print("No need to cancel the tracking")
             }
         }
 
         currentTracker = nil
+        
+        if let mapView = mapsAppContext.currentMapView {
+            mapView.graphicsOverlays.add(traversedRouteOverlay)
+            mapView.graphicsOverlays.add(remainingRouteOverlay)
+        }
     }
     
     deinit {
-        stopTracking()
+        stopNavigating()
         
         MapsAppNotifications.deregisterNotificationBlocks(forOwner: self)
+
+        if let mapView = mapsAppContext.currentMapView {
+            mapView.graphicsOverlays.remove(traversedRouteOverlay)
+            mapView.graphicsOverlays.remove(remainingRouteOverlay)
+        }
     }
     
     @IBAction func summaryTapped(_ sender: Any) {
@@ -113,47 +129,22 @@ class RouteResultViewController : UIViewController, AGSRouteTrackerDelegate {
         return formatter
     }()
     
-    func stopTracking() {
-        remainingRouteOverlay.graphics.removeAllObjects()
-        traversedRouteOverlay.graphics.removeAllObjects()
-        
-        remainingRouteOverlay.isVisible = false
-        traversedRouteOverlay.isVisible = false
-
-        currentTracker?.delegate = nil
-        currentTracker = nil
-
-        if let mapView = mapsAppContext.currentMapView {
-//            mapView.locationDisplay.stop()
-//            mapView.locationDisplay.dataSource = AGSCLLocationDataSource()
-            mapView.locationDisplay.locationChangedHandler = nil
-//            mapView.locationDisplay.start { (error) in
-//                if let error = error {
-//                    print("Error starting the location display: \(error)")
-//                }
-//            }
-        }
-        
-        MapsAppNotifications.postNavigationEnded()
-        
-        print("Tracking Ended")
-    }
-    
     @IBOutlet weak var navigateButton: RoundedButton!
     @IBOutlet weak var endNavigatingButton: RoundedButton!
+    @IBOutlet weak var reroutingActivityView: UIActivityIndicatorView!
+    let synth = AVSpeechSynthesizer()
+
+    var rerouteActivityViewMinDismissTime: DispatchTime?
+
     var currentTracker: AGSRouteTracker? {
         didSet {
             navigateButton.isHidden = currentTracker != nil
             endNavigatingButton.isHidden = !navigateButton.isHidden
+            reroutingActivityView.stopAnimating()
         }
     }
-    let synth = AVSpeechSynthesizer()
     
-    @IBAction func endNavigation(_ sender: Any) {
-        stopTracking()
-    }
-
-    @IBAction func navigate(_ sender: Any) {
+    @IBAction func startNavigation(_ sender: Any) {
         guard let mapView = mapsAppContext.currentMapView,
             let routeResult = mapsAppContext.routeResult else {
                 return
@@ -219,18 +210,45 @@ class RouteResultViewController : UIViewController, AGSRouteTrackerDelegate {
                 }
             }
             
-            if !mapView.graphicsOverlays.contains(traversedRouteOverlay) {
-                mapView.graphicsOverlays.add(traversedRouteOverlay)
-            }
-            if !mapView.graphicsOverlays.contains(remainingRouteOverlay) {
-                mapView.graphicsOverlays.add(remainingRouteOverlay)
-            }
-            
             remainingRouteOverlay.isVisible = true
             traversedRouteOverlay.isVisible = true
             
             MapsAppNotifications.postNavigationStarted()
         }
+    }
+    
+    @IBAction func endNavigation(_ sender: Any) {
+        stopNavigating()
+    }
+    
+    func stopNavigating() {
+        remainingRouteOverlay.graphics.removeAllObjects()
+        traversedRouteOverlay.graphics.removeAllObjects()
+        
+        remainingRouteOverlay.isVisible = false
+        traversedRouteOverlay.isVisible = false
+
+        currentTracker?.delegate = nil
+        currentTracker = nil
+
+        if let mapView = mapsAppContext.currentMapView {
+            mapView.locationDisplay.locationChangedHandler = nil
+        }
+        
+        MapsAppNotifications.postNavigationEnded()
+        
+        print("Navigation Ended")
+    }
+
+    func speakText(text: String) {
+        let utterance = AVSpeechUtterance(string: text)
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback)
+        } catch {
+            print("Unable to set audio session: \(error.localizedDescription)")
+        }
+        synth.speak(utterance)
     }
     
     //AGSRouteTrackerDelegate
@@ -255,19 +273,8 @@ class RouteResultViewController : UIViewController, AGSRouteTrackerDelegate {
         if trackingStatus.destinationStatus == .reached {
             print("ROUTE COMPLETE!")
             speakText(text: "Navigation complete")
-            stopTracking()
+            stopNavigating()
         }
-    }
-    
-    func speakText(text: String) {
-        let utterance = AVSpeechUtterance(string: text)
-        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-        do {
-            try AVAudioSession.sharedInstance().setCategory(.playback)
-        } catch {
-            print("Unable to set audio session: \(error.localizedDescription)")
-        }
-        synth.speak(utterance)
     }
     
     //Speak voice guidance provided by route tracker
@@ -291,16 +298,25 @@ class RouteResultViewController : UIViewController, AGSRouteTrackerDelegate {
     //handle re-routing
     func routeTrackerRerouteDidStart(_ routeTracker: AGSRouteTracker) {
         print("Rerouting…")
+        reroutingActivityView.startAnimating()
+        rerouteActivityViewMinDismissTime = .now() + 0.5
     }
     
     func routeTracker(_ routeTracker: AGSRouteTracker, rerouteDidCompleteWith trackingStatus: AGSTrackingStatus?, error: Error?) {
-        print("Rerouted OK…")
+        let dismissTime: DispatchTime = rerouteActivityViewMinDismissTime ?? .now() + 0.5
+        DispatchQueue.main.asyncAfter(deadline: dismissTime) { [weak self] in
+            self?.reroutingActivityView.stopAnimating()
+        }
         
         if let newRoute = trackingStatus?.routeResult.routes.first {
-            self.route = newRoute
+            print("Rerouted OK…")
+            MapsAppNotifications.postReRouteSolvedNotification(result: newRoute)
             (self.remainingRouteOverlay.graphics.firstObject as? AGSGraphic)?.geometry = trackingStatus?.routeProgress.remainingGeometry
         }
     }
+    
+    
+    // Helper functions
     
     fileprivate func text(for remainingManeuverDistance: AGSTrackingDistance) -> String {
         return remainingManeuverDistance.displayText + " " +  remainingManeuverDistance.displayTextUnits.abbreviation + "."
