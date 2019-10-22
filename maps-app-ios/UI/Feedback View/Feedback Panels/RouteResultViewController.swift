@@ -179,9 +179,12 @@ class RouteResultViewController : UIViewController, AGSRouteTrackerDelegate {
                 mapView.locationDisplay.dataSource = gpxDS
                 mapView.locationDisplay.start(completion: nil)
             } else {
-                if !(mapView.locationDisplay.dataSource is AGSCLLocationDataSource) {
-                    mapView.locationDisplay.dataSource = AGSCLLocationDataSource()
-                }
+//                if !(mapView.locationDisplay.dataSource is AGSCLLocationDataSource) {
+//                    mapView.locationDisplay.dataSource = AGSCLLocationDataSource()
+//                }
+                let dataSource = RouteTrackingLocationDataSourceOverride()
+                dataSource.routeTracker = currentTracker
+                mapView.locationDisplay.dataSource = dataSource
                 mapView.locationDisplay.start(completion: nil)
             }
 
@@ -203,9 +206,14 @@ class RouteResultViewController : UIViewController, AGSRouteTrackerDelegate {
                         mapView.locationDisplay.autoPanMode = AGSLocationDisplayAutoPanMode.navigation
                     }
                     
+                    var locationForTracker = newLocation
+                    if let actualLastLocation = (mapView.locationDisplay.dataSource as? RouteTrackingLocationDataSourceOverride)?.actualLastLocation {
+                        locationForTracker = actualLastLocation
+                    }
+                    
                     //update route tracker
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
-                        self?.currentTracker?.trackLocation(newLocation, completion: nil)
+                        self?.currentTracker?.trackLocation(locationForTracker, completion: nil)
                     }
                 }
             }
