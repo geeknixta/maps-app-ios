@@ -157,7 +157,6 @@ class RouteResultViewController : UIViewController, AGSRouteTrackerDelegate {
             prevManueverIndex = 0
             
             currentTracker.voiceGuidanceUnitSystem = .imperial
-            currentTracker.delegate = self
             
             if let defaultParams = reroutingParameters {
                 currentTracker.enableRerouting(with: arcGISServices.routeTask, routeParameters: defaultParams,
@@ -176,25 +175,21 @@ class RouteResultViewController : UIViewController, AGSRouteTrackerDelegate {
                 mapView.locationDisplay.stop()
                 mapView.locationDisplay.autoPanMode = .navigation
                 let gpxDS = AGSGPXLocationDataSource(name: gpxFileName)
-                mapView.locationDisplay.dataSource = gpxDS
+                mapView.locationDisplay.dataSource = NavigationLocationDataSource(routeTracker: currentTracker, baseLocationDataSource: gpxDS)
                 mapView.locationDisplay.start(completion: nil)
             } else {
-//                if !(mapView.locationDisplay.dataSource is AGSCLLocationDataSource) {
-//                    mapView.locationDisplay.dataSource = AGSCLLocationDataSource()
-//                }
-                let dataSource = RouteTrackingLocationDataSourceOverride()
-                dataSource.routeTracker = currentTracker
-                mapView.locationDisplay.dataSource = dataSource
+                mapView.locationDisplay.dataSource = NavigationLocationDataSource(routeTracker: currentTracker, baseLocationDataSource: AGSCLLocationDataSource())
                 mapView.locationDisplay.start(completion: nil)
             }
+            
+            (mapView.locationDisplay.dataSource as? NavigationLocationDataSource)?.delegate = self
 
             if let guidance = currentTracker.generateVoiceGuidance() {
                 speakText(text: guidance.text)
             }
 
             //For location updates....
-            mapView.locationDisplay.locationChangedHandler = { [weak self]
-                newLocation in
+            mapView.locationDisplay.locationChangedHandler = { newLocation in
                 
                 DispatchQueue.main.async {
                     guard let mapView = mapsAppContext.currentMapView else { return }
@@ -204,16 +199,6 @@ class RouteResultViewController : UIViewController, AGSRouteTrackerDelegate {
                             mapView.setViewpoint(AGSViewpoint(center: position, scale: 5000))
                         }
                         mapView.locationDisplay.autoPanMode = AGSLocationDisplayAutoPanMode.navigation
-                    }
-                    
-                    var locationForTracker = newLocation
-                    if let actualLastLocation = (mapView.locationDisplay.dataSource as? RouteTrackingLocationDataSourceOverride)?.actualLastLocation {
-                        locationForTracker = actualLastLocation
-                    }
-                    
-                    //update route tracker
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
-                        self?.currentTracker?.trackLocation(locationForTracker, completion: nil)
                     }
                 }
             }
