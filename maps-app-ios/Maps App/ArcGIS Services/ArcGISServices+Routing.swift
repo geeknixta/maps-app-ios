@@ -66,7 +66,7 @@ extension ArcGISServices {
                 params.outputSpatialReference = outSR
             }
             
-            reroutingParameters = params
+            lastRouteParameters = params
 
             self.routeTask.solveRoute(with: params) { result, error in
                 guard error == nil else {

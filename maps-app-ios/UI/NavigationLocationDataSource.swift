@@ -15,6 +15,7 @@
 import Foundation
 import ArcGIS
 
+/// Create a custom `AGSLocationDataSource` that works with an `AGSRouteTracker` to keep the blue dot on the route
 class NavigationLocationDataSource : AGSLocationDataSource, AGSLocationChangeHandlerDelegate, AGSRouteTrackerDelegate {
     
     let routeTracker: AGSRouteTracker
@@ -45,6 +46,13 @@ class NavigationLocationDataSource : AGSLocationDataSource, AGSLocationChangeHan
         delegate?.routeTracker?(routeTracker, didUpdate: trackingStatus)
     }
 }
+
+
+
+
+
+
+
 
 // Additional RouteTrackerDelegate stuff to act as a full proxy.
 extension NavigationLocationDataSource {

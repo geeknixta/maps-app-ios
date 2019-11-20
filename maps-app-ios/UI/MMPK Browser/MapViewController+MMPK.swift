@@ -16,7 +16,7 @@ import Foundation
 import ArcGIS
 
 fileprivate var currentMMPK: AGSMobileMapPackage?
-public var reroutingParameters: AGSRouteParameters?
+public var lastRouteParameters: AGSRouteParameters?
 
 extension MapViewController {
     func setupMMPK() {
