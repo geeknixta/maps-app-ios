@@ -23,7 +23,7 @@ struct AppSettings {
     // MARK: Runtime Licensing
     // Set up AGSLicenseKey in the project's info.plist to remove the Developer watermark.
     // See https://developers.arcgis.com/ios/latest/swift/guide/license-your-app.htm#ESRI_SECTION1_25AC0000E35A4E52B713E8D50359A75C
-    static let licenseKey = "YOUR_LICENSE_KEY"
+    static let licenseKey = "runtimeadvanced,1000,rud549870138,21-oct-2020,A3C1TK8EL9G5TGE59129"
     
 
     // MARK: Portal Auth Config

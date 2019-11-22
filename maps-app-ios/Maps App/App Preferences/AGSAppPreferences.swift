@@ -66,7 +66,11 @@ class AGSAppPreferences: NSObject {
     static func getInt<K:RawRepresentable>(forKey key:K) -> Int? where K.RawValue == String {
         return AppSettings.preferencesStore.integer(forKey: key.rawValue)
     }
-    
+
+    static func getString<K:RawRepresentable>(forKey key:K) -> String? where K.RawValue == String {
+        return AppSettings.preferencesStore.string(forKey: key.rawValue)
+    }
+
     static func get<K:RawRepresentable>(forKey key:K) -> Any? where K.RawValue == String {
         return AppSettings.preferencesStore.object(forKey: key.rawValue)
     }
@@ -82,6 +86,8 @@ class AGSAppPreferences: NSObject {
             AppSettings.preferencesStore.set(float, forKey: key.rawValue)
         } else if let anInt = value as? Int {
             AppSettings.preferencesStore.set(anInt, forKey: key.rawValue)
+        } else if let aString = value as? String {
+            AppSettings.preferencesStore.set(aString, forKey: key.rawValue)
         } else {
             AppSettings.preferencesStore.set(value, forKey: key.rawValue)
         }

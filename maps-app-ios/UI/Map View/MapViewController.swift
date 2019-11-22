@@ -87,6 +87,9 @@ class MapViewController: UIViewController {
         setupSearch()
         setupLocationDisplay()
         
+        // Set up MMPK handling
+        setupMMPK()
+        
         // Set up handlers for events that could change the map.
         setupBasemapChangeHandler()
         setupCurrentItemChangeHandler()

@@ -16,15 +16,18 @@ import ArcGIS
 
 extension MapViewController {
     func setupLocationDisplay() {
+        mapView.locationDisplay.navigationPointHeightFactor = 0.4
+        
+        
         mapView.locationDisplay.start() { error in
             if let error = error {
                 mapsApp.showDefaultAlert(title: "Unable to start GPS", message: error.localizedDescription)
             }
         }
         
-        mapView.locationDisplay.autoPanModeChangedHandler = { [weak self] newAutoPanMode in
-            print("New autoPanMode: \(newAutoPanMode)")
-            DispatchQueue.main.async {
+        mapView.locationDisplay.autoPanModeChangedHandler = { newAutoPanMode in
+            DispatchQueue.main.async { [weak self] in
+                print("New autoPanMode: \(newAutoPanMode)")
                 guard let self = self else { return }
                 self.gpsButton.setImage(self.mapView.locationDisplay.getImage(), for: .normal)
             }

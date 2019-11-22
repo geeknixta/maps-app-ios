@@ -39,12 +39,15 @@ class DirectionsDisplayViewController: UIViewController, UICollectionViewDataSou
                 self.view.superview?.isHidden = (self.directions == nil)
             })
             
-            setCurrentCell()
+            setCurrentCell()            
         }
     }
     
     var currentCellIndex:IndexPath? {
         didSet {
+            if let index = currentCellIndex {
+                maneuversView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
+            }
             pageControl.currentPage = currentCellIndex?.row ?? 0
         }
     }
@@ -56,6 +59,15 @@ class DirectionsDisplayViewController: UIViewController, UICollectionViewDataSou
         
         view.translatesAutoresizingMaskIntoConstraints = false
         
+        MapsAppNotifications.observeNextManeuverNotification(owner: self) { [weak self](indexPath, distanceRemaining) in
+            guard self?.maneuversView.numberOfItems(inSection: indexPath.section) ?? indexPath.row > indexPath.row else { return }
+            self?.maneuversView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            self?.currentCellIndex = indexPath
+            let directionCell = self?.maneuversView.cellForItem(at: indexPath) as? DirectionManeuverCell
+            directionCell?.detailsLabel.text = distanceRemaining
+        }
+        
+        
         MapsAppNotifications.observeModeChangeNotification(owner: self) { [weak self] oldMode, newMode in
             switch newMode {
             case .routeResult(let route):
@@ -63,6 +75,11 @@ class DirectionsDisplayViewController: UIViewController, UICollectionViewDataSou
             default:
                 self?.directions = nil
             }
+        }
+        
+        MapsAppNotifications.observeReRouteSolvedNotification(owner: self) { [weak self] newRouteSolution in
+            self?.currentCellIndex = nil
+            self?.directions = newRouteSolution
         }
         
         // Workaround to ensure the UICollectionView doesn't extend beyond the RoundedView container.
@@ -118,6 +135,7 @@ class DirectionsDisplayViewController: UIViewController, UICollectionViewDataSou
         }
     }
     
+
     private func configureCollectionViewLayout() {
         if let layout = maneuversView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.itemSize = CGSize(width: maneuversView.frame.size.width - layout.minimumInteritemSpacing, height: maneuversView.frame.size.height)
