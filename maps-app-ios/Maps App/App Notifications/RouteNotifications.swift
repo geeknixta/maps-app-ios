@@ -25,6 +25,24 @@ extension MapsAppNotifications {
         }
         MapsAppNotifications.registerBlockHandler(blockHandler: ref, forOwner: owner)
     }
+    
+    static func observeReRouteSolvedNotification(owner:Any, reRouteSolvedHandler: @escaping ((AGSRoute)->Void)) {
+        let ref = NotificationCenter.default.addObserver(forName: MapsAppNotifications.Names.reRouteSolved, object: mapsApp, queue: OperationQueue.main) { notification in
+            if let routeResult = notification.routeResult {
+                reRouteSolvedHandler(routeResult)
+            }
+        }
+        MapsAppNotifications.registerBlockHandler(blockHandler: ref, forOwner: owner)
+    }
+
+    static func observeNextManeuverNotification(owner:Any, nextManueverHandler: @escaping ((IndexPath, String)->Void)) {
+        let ref = NotificationCenter.default.addObserver(forName: MapsAppNotifications.Names.nextManuever, object: mapsApp, queue: OperationQueue.main) { notification in
+            if let manueverIndex = notification.manueverIndex,  let distanceRemaining = notification.distanceRemaining {
+                nextManueverHandler(manueverIndex, distanceRemaining)
+            }
+        }
+        MapsAppNotifications.registerBlockHandler(blockHandler: ref, forOwner: owner)
+    }
 }
 
 
@@ -35,16 +53,25 @@ extension MapsAppNotifications {
         NotificationCenter.default.post(name: MapsAppNotifications.Names.routeSolved, object: mapsApp, userInfo: [RouteNotificationKeys.route:result])
     }
     
+    static func postReRouteSolvedNotification(result:AGSRoute) {
+        NotificationCenter.default.post(name: MapsAppNotifications.Names.reRouteSolved, object: mapsApp, userInfo: [RouteNotificationKeys.route:result])
+    }
+
+    static func postNextManeuverNotification(manueverIndex:IndexPath, text:String) {
+        NotificationCenter.default.post(name: MapsAppNotifications.Names.nextManuever, object: mapsApp, userInfo: [RouteNotificationKeys.manueverIndex:manueverIndex, RouteNotificationKeys.distance:text ])
+    }
 }
 
 // MARK: Typed Notification Pattern
 extension MapsAppNotifications.Names {
     static let routeSolved = Notification.Name("MapsAppRouteSolvedNotification")
+    static let nextManuever = Notification.Name("MapsAppRouteNextManueverNotification")
+    static let reRouteSolved = Notification.Name("MapsAppReRouteSolvedNotification")
 }
 
 extension Notification {
     var routeResult:AGSRoute? {
-        guard self.name == MapsAppNotifications.Names.routeSolved else {
+        guard [MapsAppNotifications.Names.routeSolved, MapsAppNotifications.Names.reRouteSolved].contains(self.name) else {
             return nil
         }
 
@@ -52,7 +79,27 @@ extension Notification {
     }
 }
 
+extension Notification {
+    var manueverIndex:IndexPath? {
+        guard self.name == MapsAppNotifications.Names.nextManuever else {
+            return nil
+        }
+        
+        return self.userInfo?[RouteNotificationKeys.manueverIndex] as? IndexPath
+    }
+    
+    var distanceRemaining:String? {
+        guard self.name == MapsAppNotifications.Names.nextManuever else {
+            return nil
+        }
+        
+        return self.userInfo?[RouteNotificationKeys.distance] as? String
+    }
+}
+
 // MARK: Internal Constants
 fileprivate struct RouteNotificationKeys {
     static let route = "route"
+    static let manueverIndex = "manueverIndex"
+    static let distance = "distance"
 }

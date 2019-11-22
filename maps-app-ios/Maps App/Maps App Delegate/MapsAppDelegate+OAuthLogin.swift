@@ -33,6 +33,8 @@ extension MapsAppDelegate {
                 // If we were authenticated, there should now be a shared credential to use. Let's try it.
                 mapsAppContext.signInCurrentPortalIfPossible()
             }
+        } else {
+            return openMMPK(url: url)
         }
         return true
     }

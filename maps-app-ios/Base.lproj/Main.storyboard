@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14810.12" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14766.15"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -48,6 +49,7 @@
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ysD-b5-Hlx">
                                                         <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                                        <color key="tintColor" name="Feedback Panel Text"/>
                                                         <state key="normal" image="Undo"/>
                                                         <connections>
                                                             <action selector="previousMode:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fr8-gE-pBw"/>
@@ -55,6 +57,7 @@
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sDr-0H-15M">
                                                         <rect key="frame" x="0.0" y="40" width="40" height="40"/>
+                                                        <color key="tintColor" name="Feedback Panel Text"/>
                                                         <state key="normal" image="Redo"/>
                                                         <connections>
                                                             <action selector="nextMode:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9Ua-fQ-0wn"/>
@@ -66,7 +69,7 @@
                                                 </constraints>
                                             </stackView>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" name="Feedback Panel Background"/>
                                         <constraints>
                                             <constraint firstItem="1Ej-sR-s7b" firstAttribute="top" secondItem="I5G-Ky-yTQ" secondAttribute="top" id="Vi8-LR-cXW"/>
                                             <constraint firstItem="1Ej-sR-s7b" firstAttribute="leading" secondItem="I5G-Ky-yTQ" secondAttribute="leading" id="Wp4-kV-ZNB"/>
@@ -91,6 +94,7 @@
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0ng-Np-3qj">
                                                         <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                                        <color key="tintColor" name="Feedback Panel Text"/>
                                                         <state key="normal" image="GPS Off"/>
                                                         <connections>
                                                             <action selector="nextGPSMode:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PaQ-l1-kHo"/>
@@ -105,6 +109,7 @@
                                                     </view>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O2i-Kj-Tm3" userLabel="Basemaps Button">
                                                         <rect key="frame" x="0.0" y="41" width="40" height="40"/>
+                                                        <color key="tintColor" name="Feedback Panel Text"/>
                                                         <state key="normal" image="Choose Basemap"/>
                                                         <connections>
                                                             <segue destination="KXs-Jl-tiq" kind="presentation" id="x7c-Bl-v31"/>
@@ -122,6 +127,7 @@
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="xI1-vk-oNX"/>
                                                         </constraints>
+                                                        <color key="tintColor" name="Feedback Panel Text"/>
                                                         <state key="normal" image="Account"/>
                                                         <connections>
                                                             <segue destination="Q6l-Ds-Fna" kind="presentation" id="TZ3-Fn-ka8"/>
@@ -134,7 +140,7 @@
                                                 </constraints>
                                             </stackView>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" name="Feedback Panel Background"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="40" id="7sg-EG-Rrz"/>
                                             <constraint firstItem="nv9-AX-PSE" firstAttribute="leading" secondItem="1Qf-QF-G41" secondAttribute="leading" id="MiA-4p-sDd"/>
@@ -264,7 +270,7 @@
                 <viewControllerPlaceholder storyboardName="Basemaps" id="KXs-Jl-tiq" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QoE-Xi-WbG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1081" y="-179"/>
+            <point key="canvasLocation" x="1100" y="-248"/>
         </scene>
         <!--Directions-->
         <scene sceneID="qw6-CN-Xar">
@@ -282,5 +288,11 @@
         <image name="GPS Off" width="22" height="22"/>
         <image name="Redo" width="22" height="22"/>
         <image name="Undo" width="22" height="22"/>
+        <namedColor name="Feedback Panel Background">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Feedback Panel Text">
+            <color red="0.10102574720283863" green="0.10102574720283863" blue="0.10102574720283863" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
     </resources>
 </document>

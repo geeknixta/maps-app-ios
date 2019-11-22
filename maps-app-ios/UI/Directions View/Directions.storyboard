@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="sHM-CL-1PV">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="sHM-CL-1PV">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -28,7 +25,7 @@
                                 <subviews>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="LEb-CE-Jq9">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="85"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" name="Feedback Panel Background"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="85" id="a8L-yI-9zQ"/>
                                         </constraints>
@@ -47,17 +44,18 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="KwE-jZ-HeK">
-                                                            <rect key="frame" x="8" y="8" width="375" height="50"/>
+                                                            <rect key="frame" x="8" y="8" width="359" height="50"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SDb-dH-Ch4">
                                                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                                    <color key="tintColor" name="Feedback Panel Text"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="50" id="5Pv-EA-eiP"/>
                                                                         <constraint firstAttribute="width" secondItem="SDb-dH-Ch4" secondAttribute="height" multiplier="1:1" id="uBd-P5-4aH"/>
                                                                     </constraints>
                                                                 </imageView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JfS-Ea-fgN">
-                                                                    <rect key="frame" x="58" y="0.0" width="375" height="50"/>
+                                                                    <rect key="frame" x="58" y="0.0" width="301" height="50"/>
                                                                     <gestureRecognizers/>
                                                                     <attributedString key="attributedText">
                                                                         <fragment content="Label">
@@ -74,7 +72,7 @@
                                                             </constraints>
                                                         </stackView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OVC-pk-7RK">
-                                                            <rect key="frame" x="352" y="62.5" width="31" height="14.5"/>
+                                                            <rect key="frame" x="336" y="62.5" width="31" height="14.5"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -103,13 +101,13 @@
                                     </collectionView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e0N-IK-Y80" customClass="FlexiblePageControl" customModule="maps_app_ios" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="85" width="375" height="15"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" name="Feedback Panel Background"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="15" id="8hN-6j-eNp"/>
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" name="Feedback Panel Background"/>
                                 <constraints>
                                     <constraint firstItem="LEb-CE-Jq9" firstAttribute="top" secondItem="Vbn-Sg-8rS" secondAttribute="top" id="CEn-uQ-hk9"/>
                                     <constraint firstItem="e0N-IK-Y80" firstAttribute="top" secondItem="LEb-CE-Jq9" secondAttribute="bottom" id="ESX-Uk-ZOo"/>
@@ -151,4 +149,12 @@
             <point key="canvasLocation" x="120.8" y="153.82308845577214"/>
         </scene>
     </scenes>
+    <resources>
+        <namedColor name="Feedback Panel Background">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Feedback Panel Text">
+            <color red="0.10102574720283863" green="0.10102574720283863" blue="0.10102574720283863" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+    </resources>
 </document>
