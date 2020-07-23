@@ -95,8 +95,14 @@ extension RouteResultViewController {
         //Simulate location based on GPX
         mapView.locationDisplay.stop()
         let gpxDS = AGSGPXLocationDataSource(name: gpxFileName)
-        mapView.locationDisplay.dataSource = NavigationLocationDataSource(routeTracker: currentTracker, baseLocationDataSource: gpxDS)
-        mapView.locationDisplay.start(completion: nil)
+        mapView.locationDisplay.dataSource = AGSRouteTrackerLocationDataSource(routeTracker: currentTracker, locationDataSource: gpxDS)
+        mapView.locationDisplay.start() { (error) in
+            if let error = error {
+                print("Error starting GPX location data source! \(error.localizedDescription)")
+                return
+            }
+            print("Started GPX location data source OK.")
+        }
         
         return true
     }

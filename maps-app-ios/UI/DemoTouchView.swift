@@ -139,6 +139,8 @@ extension UIApplication {
                     // NOTE: I've never actually seen this state.
                     //
                     continue
+                default:
+                    continue
                 }
             }
             
@@ -438,6 +440,8 @@ private class DemoTouchesView: UIView {
                 case .stationary:
                     // NOTE: I've never actually seen this state.
                     //
+                    continue
+                default:
                     continue
                 }
             }

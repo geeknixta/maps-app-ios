@@ -14,7 +14,6 @@
 		D91083C01EBC354800BACD96 /* MapViewController+CurrentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91083BF1EBC354800BACD96 /* MapViewController+CurrentItem.swift */; };
 		D91083C21EBC359000BACD96 /* MapViewController+MapViewMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91083C11EBC359000BACD96 /* MapViewController+MapViewMode.swift */; };
 		D91083C41EBC3C0F00BACD96 /* PortalUserFolderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91083C31EBC3C0F00BACD96 /* PortalUserFolderType.swift */; };
-		D9154BE0235B553E00765269 /* NavigationLocationDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9154BDF235B553E00765269 /* NavigationLocationDataSource.swift */; };
 		D920A57A1EB6AC7000D565E2 /* MapsAppNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = D920A5791EB6AC7000D565E2 /* MapsAppNotifications.swift */; };
 		D920A57C1EB6B10600D565E2 /* MapViewModeNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = D920A57B1EB6B10600D565E2 /* MapViewModeNotifications.swift */; };
 		D920A5821EB6CFCF00D565E2 /* LoginNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = D920A5811EB6CFCF00D565E2 /* LoginNotifications.swift */; };
@@ -163,7 +162,6 @@
 		D91083BF1EBC354800BACD96 /* MapViewController+CurrentItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MapViewController+CurrentItem.swift"; sourceTree = "<group>"; };
 		D91083C11EBC359000BACD96 /* MapViewController+MapViewMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MapViewController+MapViewMode.swift"; sourceTree = "<group>"; };
 		D91083C31EBC3C0F00BACD96 /* PortalUserFolderType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalUserFolderType.swift; sourceTree = "<group>"; };
-		D9154BDF235B553E00765269 /* NavigationLocationDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationLocationDataSource.swift; sourceTree = "<group>"; };
 		D920A5791EB6AC7000D565E2 /* MapsAppNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MapsAppNotifications.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		D920A57B1EB6B10600D565E2 /* MapViewModeNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewModeNotifications.swift; sourceTree = "<group>"; };
 		D920A5811EB6CFCF00D565E2 /* LoginNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginNotifications.swift; sourceTree = "<group>"; };
@@ -554,7 +552,6 @@
 				D90E7DFC1EB8602100EE520E /* Account View */,
 				D95AD1D91F195644002BC78A /* Portal Items Browser */,
 				D93B8CF923539C650093FC9B /* MMPK Browser */,
-				D9154BDF235B553E00765269 /* NavigationLocationDataSource.swift */,
 				D98D92271EF6F5F9001BFF03 /* NorthArrowView.swift */,
 				D9E79EA2238577A600758DCC /* DemoTouchView.swift */,
 				D95AD1D41F1933C3002BC78A /* Rounded Views */,
@@ -777,6 +774,7 @@
 				TargetAttributes = {
 					D96A77501E8594BF00F441D3 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 82XU79869R;
 						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
@@ -907,7 +905,6 @@
 				D9C080B91F01BFCD00968FB3 /* DirectionManeuverCell.swift in Sources */,
 				D96B73C11EF73760004B6862 /* RoundedImageView.swift in Sources */,
 				D98D92281EF6F5F9001BFF03 /* NorthArrowView.swift in Sources */,
-				D9154BE0235B553E00765269 /* NavigationLocationDataSource.swift in Sources */,
 				D95AD1CF1F192ACA002BC78A /* MapsAppGlobals.swift in Sources */,
 				D9CF2A731E9045A70019701F /* MapsAppStopProvider.swift in Sources */,
 				D9D756C41F1193E500D52B25 /* SVProgressAnimatedView.m in Sources */,
@@ -1152,7 +1149,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 82XU79869R;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(HOME)/Library/SDKs/ArcGIS/iOS/Frameworks/Dynamic",
 					"$(USER_LIBRARY_DIR)/SDKs/ArcGIS/iOS/Frameworks/Dynamic",
@@ -1162,7 +1159,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.0.1;
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.esri.arcgisruntime-example-apps.maps-app";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.esri.arcgisruntime-example-apps.maps-app-nixta-nav";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "maps-app-ios/3rd Party/maps-app-ios-Bridging-Header.h";
