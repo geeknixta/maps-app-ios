@@ -20,7 +20,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Maps App 100.9</string>
+	<string>Maps App</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
