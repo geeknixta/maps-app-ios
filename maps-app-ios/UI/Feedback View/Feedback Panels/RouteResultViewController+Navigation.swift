@@ -45,18 +45,26 @@ extension RouteResultViewController {
         }
 
         if !setupSimulatedGPSifRequired(on: mapView) {
-            mapView.locationDisplay.dataSource = NavigationLocationDataSource(routeTracker: currentTracker, baseLocationDataSource: AGSCLLocationDataSource())
-            mapView.locationDisplay.start(completion: nil)
+            print("Not simulating GPS.")
+            mapView.locationDisplay.stop()
+            let clSource = AGSCLLocationDataSource()
+            mapView.locationDisplay.dataSource = AGSRouteTrackerLocationDataSource(routeTracker: currentTracker,
+                                                                                   locationDataSource: clSource)
+            mapView.locationDisplay.start() { (error) in
+                if let error = error {
+                    print("Error starting Route Tracker Location Data Source: \(error.localizedDescription)")
+                    return
+                }
+                print("Started the Route Tracker Location Data Source OK")
+            }
         }
         
         mapView.locationDisplay.autoPanMode = .navigation
         
-        (mapView.locationDisplay.dataSource as? NavigationLocationDataSource)?.delegate = self
-        
         // Optional: make sure that while we're navigating, we lock the Location Display navigation mode.
         mapView.locationDisplay.autoPanModeChangedHandler = { [weak mapView] newMode in
             if let locationDisplay = mapView?.locationDisplay,
-                let status = (locationDisplay.dataSource as? NavigationLocationDataSource)?.routeTracker.trackingStatus?.destinationStatus,
+                let status = currentTracker.trackingStatus?.destinationStatus,
                 status != .reached,
                 locationDisplay.autoPanMode != .navigation {
                     mapView?.setViewpointScale(5000)
@@ -82,15 +90,14 @@ extension RouteResultViewController {
             mapView.locationDisplay.autoPanModeChangedHandler = nil
             mapView.locationDisplay.autoPanMode = .recenter
 
-            // Restore the location data source
-            if let navigationLocationDataSource = mapView.locationDisplay.dataSource as? NavigationLocationDataSource {
-                mapView.locationDisplay.stop()
-                mapView.locationDisplay.dataSource = navigationLocationDataSource.baseLocationDataSource
-                mapView.locationDisplay.start { error in
-                    if let error = error {
-                        print("Error restarting location display: \(error.localizedDescription)")
-                    }
+            mapView.locationDisplay.stop()
+            mapView.locationDisplay.dataSource = AGSCLLocationDataSource()
+            mapView.locationDisplay.start() { error in
+                if let error = error {
+                    print("Error starting CL location display data source: \(error.localizedDescription)")
+                    return
                 }
+                print("Started CL Location Display Data Source OK!")
             }
         }
 
